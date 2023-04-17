@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xxxx.ScoreQuery.dao.ScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.xxxx.ScoreQuery.vo.Score" >
+    <result column="s_id" property="sId" jdbcType="INTEGER" />
+    <result column="t_id" property="tId" jdbcType="INTEGER" />
+    <result column="c_score" property="cScore" jdbcType="INTEGER" />
+    <result column="m_score" property="mScore" jdbcType="INTEGER" />
+    <result column="e_score" property="eScore" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xxxx.ScoreQuery.vo.Score" >
+    insert into a_score (s_id, t_id, c_score, 
+      m_score, e_score, score
+      )
+    values (#{sId,jdbcType=INTEGER}, #{tId,jdbcType=INTEGER}, #{cScore,jdbcType=INTEGER}, 
+      #{mScore,jdbcType=INTEGER}, #{eScore,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxxx.ScoreQuery.vo.Score" >
+    insert into a_score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sId != null" >
+        s_id,
+      </if>
+      <if test="tId != null" >
+        t_id,
+      </if>
+      <if test="cScore != null" >
+        c_score,
+      </if>
+      <if test="mScore != null" >
+        m_score,
+      </if>
+      <if test="eScore != null" >
+        e_score,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sId != null" >
+        #{sId,jdbcType=INTEGER},
+      </if>
+      <if test="tId != null" >
+        #{tId,jdbcType=INTEGER},
+      </if>
+      <if test="cScore != null" >
+        #{cScore,jdbcType=INTEGER},
+      </if>
+      <if test="mScore != null" >
+        #{mScore,jdbcType=INTEGER},
+      </if>
+      <if test="eScore != null" >
+        #{eScore,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectScore" parameterType="Integer" resultType="com.xxxx.ScoreQuery.vo.Score">
+    SELECT
+      s_id,
+      NAME,
+      date,
+      c_score,
+      m_score,
+      e_score,
+      score
+    FROM
+      a_score s
+      INNER JOIN ( SELECT * FROM a_test WHERE id = #{t_id} ) t ON s.t_id = t.id
+    ORDER BY
+      score DESC
+  </select>
+
+</mapper>
